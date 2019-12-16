@@ -9,9 +9,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def logsig(x):
+    """
+    Función de activación
+    """
     return 1/(1+np.exp(-x))
 
 def df(z):
+    """
+    Derivada de la función de ativación
+    """
     a = logsig(z)
     return a * (1.0 - a)
 
@@ -33,7 +39,7 @@ def BP(p,t,Ep=10):
     W1 = np.random.uniform(-0.25,0.25,[p.shape[1],Neuronas_1_capa])
     b2 = np.random.uniform(-0.25,0.25)
     b1 = np.random.uniform(-0.25,0.25,[Neuronas_1_capa])
-    # ----------------------
+    # -----------------------------
     for N in range(Ep):
         for k in range(p.shape[0]): # de 0 a Num. de ejemplos
             #--Operaciones de red
@@ -62,10 +68,11 @@ def BP(p,t,Ep=10):
 
     return W1,W2,b1,b2
 
-#--- Entrenamiento --- 
+#----- Entrenamiento ----- 
 W1,W2,b1,b2 = BP(p,t,1000)
+#-------------------------
 
-#%%---- Graficas ---
+#%%---- Gráficas ---
 def RedNeuronal(x,W1,W2,b1,b2):
     net1 = np.dot(W1.T,x)+b1
     h = logsig(net1)
@@ -73,24 +80,26 @@ def RedNeuronal(x,W1,W2,b1,b2):
     y = logsig(net2)
     return y
 ##--------
-NN = 20
-Xt = np.linspace(p.min()-0.5,p.max()+0.5,NN)
-Yt = np.linspace(p.min()-0.5,p.max()+0.5,NN)
+NN = 20 # Num de elementos de los intervalos de prueba
+X0 = np.linspace(p.min()-0.5,p.max()+0.5,NN)
+X1 = np.linspace(p.min()-0.5,p.max()+0.5,NN)
 Zp = np.zeros([NN,NN])
 
 plt.figure(1)
 for i in range(NN):
     for j in range(NN):
-        Zp[i][j] = np.round(RedNeuronal([Xt[j],Yt[i]],W1,W2,b1,b2)[0])
+        Zp[i][j] = np.round(RedNeuronal([X0[j],X1[i]],W1,W2,b1,b2)[0])
 
-X, Y = np.meshgrid(Xt, Yt)        
+X, Y = np.meshgrid(X1, X1)        
 plt.contourf(X,Y,Zp,cmap = 'bwr',alpha=0.6)
 plt.grid(True)
 plt.xlabel("$x_0$")
 plt.ylabel("$x_1$")          
-##--------------------
+##----------------------------------------
+#--- Gráfica de datos de entrenamiento ---
 for i in range(len(t)):
     if(t[i][0]==1):
         plt.scatter(p[i,0],p[i,1],c='r')
     else:
         plt.scatter(p[i,0],p[i,1],c='b')
+#-----------------------------------------
