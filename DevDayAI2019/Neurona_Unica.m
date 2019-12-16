@@ -11,7 +11,7 @@ load('desgrad_dataset.mat')
 %Inicializacion de pesos (aleatorios)
 xmin=-1
 xmax=1
-w=xmin+rand(1,2)*(xmax-xmin) %vector de pesos dimencion [1,2]
+w=xmin+rand(1,2)*(xmax-xmin) %vector de pesos dimensión [1,2]
 b = rand() % bias
 
 
@@ -19,8 +19,8 @@ b = rand() % bias
 t = dataset(:,3);  %target
 p = dataset(:,1:2); %patrones
 
-N = 100; %Numero de epocas de entrenamiento
-a = 0.1; %Factor de aprendisaje
+N = 100; %Número de epocas de entrenamiento
+a = 0.1; %Factor de aprendizaje
 for Ep = 1:N
     for k = 1:numel(t)
         net = dot(w,p(k,:))+b;
@@ -32,8 +32,8 @@ for Ep = 1:N
     end
 end
 
-%% Graficas
-%Mapa de prediccion
+%% Gráficas
+%Mapa de predicción
 x0 = linspace(-1,7);
 x1 = linspace(-1,7);
 [X0,X1] = meshgrid(x0,x1);
